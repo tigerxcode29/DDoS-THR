@@ -1,6 +1,4 @@
 
-# DDOS AKAN SEGERA DI PERBARUI MAKA KALAU ADA ERROR SABAR DULU AJA NANTI ADMIN BAKALAN UPDATE DDOS NYA HABIS SHOLAT TARAWIH OKE
-
 
 # install Tools and run tools
 ```
@@ -23,10 +21,9 @@ Ultimate DDoS Attack Tool v3.0
 
 `Catatan penggunaan localhost:`
 
-mofifikasi script pada file server.js yang ada di folder bernama 7
+# mofifikasi script pada file server.js yang ada di folder bernama 7
 
 ```
-
 
 // Konfigurasi Bot Telegram UNTUK MENGGUBAKAN MENU LOCALHOST CEK WEBSITE
 const TELEGRAM_TOKEN = 'GANTI_DENGAN_TOKEN_BOT_TELEGRAM_KALIAN';
