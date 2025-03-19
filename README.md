@@ -1,4 +1,4 @@
-
+` untuk password coba tanya admin di contact yang sudah di tersedia paling bawah, di scroll ada paling bawah ada contact saya`
 
 # install Tools and run tools
 ```
@@ -15,7 +15,7 @@ python dos.py
 ---
 
 # Note DDoS-THR
-`degan nama DDoS-THR semoga aja nanti dapet thr banyak, minnn 🗿🤲`
+`dengan nama DDoS-THR semoga aja nanti dapet thr banyak, minnn 🗿🤲`
 
 Ultimate DDoS Attack Tool v3.0
 
