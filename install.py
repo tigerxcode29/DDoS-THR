@@ -3,8 +3,9 @@ import os
 import sys
 import subprocess
 import shutil
+import time
 
-# Banner keren: coba pake pyfiglet kalo ada, kalo enggak fallback aja
+# Banner keren: coba pake pyfiglet kalo ada, fallback kalo nggak
 def print_banner():
     try:
         from pyfiglet import Figlet
@@ -29,47 +30,52 @@ def detect_terminal():
         terminal_info['platform'] = "MacOS"
     else:
         terminal_info['platform'] = "Unknown"
-
-    # Cek ketersediaan perintah pkg dan npm
+    # Cek ketersediaan perintah pkg, npm, pip
     terminal_info['pkg'] = "Available" if shutil.which("pkg") else "Not Available"
     terminal_info['npm'] = "Available" if shutil.which("npm") else "Not Available"
     terminal_info['pip'] = "Available" if shutil.which("pip") else "Not Available"
-    
     # Ukuran terminal
     try:
         size = shutil.get_terminal_size()
         terminal_info['size'] = f"{size.columns}x{size.lines}"
     except Exception:
         terminal_info['size'] = "Unknown"
-    
     return terminal_info
 
-# Fungsi untuk eksekusi command dan ngeprint status-nya
+# Fungsi untuk eksekusi command dan print status-nya dengan style
 def run_command(cmd):
     print("\033[1;33m[+] Executing:\033[0m " + cmd)
-    process = subprocess.run(cmd, shell=True)
-    if process.returncode != 0:
-        print("\033[1;31m[!] Command failed:\033[0m " + cmd)
-    else:
+    try:
+        # Meng-capture output biar bisa di-debug kalo perlu
+        result = subprocess.run(cmd, shell=True, check=True,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         print("\033[1;32m[✓] Command succeeded:\033[0m " + cmd)
-    print("-" * 50)
+        if result.stdout:
+            print("\033[1;34m[stdout]:\033[0m\n" + result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("\033[1;31m[!] Command failed:\033[0m " + cmd)
+        if e.stderr:
+            print("\033[1;31m[stderr]:\033[0m\n" + e.stderr)
+    print("-" * 70)
+    time.sleep(1)
 
 def main():
+    # Bersihkan layar dulu
     os.system('clear' if os.name != 'nt' else 'cls')
     print_banner()
     
-    # Tampilkan info terminal yang terdeteksi
+    # Tampilkan informasi terminal yang terdeteksi
     term_info = detect_terminal()
-    print("\033[1;36m[~] Terminal Info Detected:\033[0m")
+    print("\033[1;36m[~] Detected Terminal Info:\033[0m")
     for key, value in term_info.items():
         print(f" - {key}: {value}")
     print()
-
-    # Konfirmasi untuk lanjut (opsional, bisa lo disable kalo udah yakin)
-    input("\033[1;35m[?] Tekan Enter buat lanjut ke proses instalasi...\033[0m")
+    
+    # Konfirmasi user untuk lanjut
+    input("\033[1;35m[?] Tekan Enter untuk memulai proses instalasi...\033[0m")
     print("\n\033[1;35m[~] Starting installation process...\033[0m\n")
-
-    # Daftar command instalasi yang mau dijalanin
+    
+    # Daftar command instalasi
     commands = [
         "pkg update -y && pkg upgrade -y",
         "pkg install python python-pip openssl-tool tor -y",
@@ -80,12 +86,22 @@ def main():
         "pkg upgrade && pkg install python"
     ]
     
-    # Eksekusi tiap command
+    # Eksekusi tiap command instalasi dengan pengecekan error
     for cmd in commands:
         run_command(cmd)
     
-    print("\033[1;32m[✓] All commands executed.\033[0m")
-    print("\033[1;36m[~] Cuy, sistem lo udah siap buat pentest & cyber security tools!\033[0m")
+    print("\033[1;32m[✓] Semua perintah berhasil dijalankan.\033[0m")
+    print("\033[1;36m[~] Sistem udah siap buat pentest & cyber security tools!\033[0m")
+    
+    # Tunggu sejenak sebelum menjalankan file dos.py
+    time.sleep(2)
+    print("\033[1;35m[~] Menjalankan dos.py...\033[0m\n")
+    
+    # Jalankan file dos.py secara otomatis
+    try:
+        subprocess.run("python dos.py", shell=True, check=True)
+    except subprocess.CalledProcessError as e:
+        print("\033[1;31m[!] Gagal menjalankan dos.py:\033[0m", e)
 
 if __name__ == "__main__":
     main()
