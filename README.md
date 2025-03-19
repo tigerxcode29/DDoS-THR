@@ -4,8 +4,6 @@
 ```
 pkg install git -y
 pkg install python
-pip install requests beautifulsoup4 python-whois rich
-npm install set-cookie-parser colors random-useragent btoa express socket.io axios
 git clone https://github.com/THEOYS123/DDoS-THR
 cd DDoS-THR
 python install.py
