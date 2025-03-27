@@ -4,6 +4,7 @@
 ```
 pkg install git -y
 pkg install python
+pip install Crypto pycryptodome
 git clone https://github.com/THEOYS123/DDoS-THR
 cd DDoS-THR
 python install.py
